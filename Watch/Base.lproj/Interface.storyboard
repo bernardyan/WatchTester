@@ -10,7 +10,7 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController">
                     <items>
-                        <label alignment="left" text="Label" id="VGe-Xv-MD7"/>
+                        <label width="136" alignment="left" text="Label" id="VGe-Xv-MD7"/>
                         <button width="1" alignment="left" title="Button" id="nll-pj-WZW">
                             <connections>
                                 <action selector="sendMessage" destination="AgC-eL-Hgc" id="D9k-eD-a2E"/>
