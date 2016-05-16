@@ -10,15 +10,38 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController">
                     <items>
-                        <label width="136" alignment="left" text="Label" id="VGe-Xv-MD7"/>
-                        <button width="1" alignment="left" title="Button" id="nll-pj-WZW">
+                        <label alignment="left" text="Distance" id="VGe-Xv-MD7"/>
+                        <label alignment="left" text="Status" id="hVe-EY-SM2"/>
+                        <button width="1" alignment="left" title="About 5m" id="nll-pj-WZW">
                             <connections>
-                                <action selector="sendMessage" destination="AgC-eL-Hgc" id="D9k-eD-a2E"/>
+                                <action selector="fiveMeterTestAction" destination="AgC-eL-Hgc" id="sNO-60-ZQD"/>
+                            </connections>
+                        </button>
+                        <button width="1" alignment="left" title="About 10m" id="h14-wh-WHA">
+                            <connections>
+                                <action selector="tenMeterTestAction" destination="AgC-eL-Hgc" id="o5b-6D-2yE"/>
+                            </connections>
+                        </button>
+                        <button width="1" alignment="left" title="About 20m" id="lJ3-YA-MBC">
+                            <connections>
+                                <action selector="twentyMeterTestAction" destination="AgC-eL-Hgc" id="0mL-1R-ciF"/>
+                            </connections>
+                        </button>
+                        <button width="1" alignment="left" title="About 50m" id="2lB-l6-7Dp">
+                            <connections>
+                                <action selector="fiftyMeterTestAction" destination="AgC-eL-Hgc" id="cJk-9R-naQ"/>
+                            </connections>
+                        </button>
+                        <button width="1" alignment="left" title="Stop" id="HBG-3w-xk8">
+                            <color key="titleColor" red="1" green="0.071741149341799759" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="stopAction" destination="AgC-eL-Hgc" id="Tp3-wt-DgR"/>
                             </connections>
                         </button>
                     </items>
                     <connections>
-                        <outlet property="messageLabel" destination="VGe-Xv-MD7" id="2yQ-M7-0wa"/>
+                        <outlet property="indicatorLabel" destination="VGe-Xv-MD7" id="1w0-PX-2Ig"/>
+                        <outlet property="statusLabel" destination="hVe-EY-SM2" id="YUx-hr-A9J"/>
                     </connections>
                 </controller>
             </objects>

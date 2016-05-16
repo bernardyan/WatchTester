@@ -54,31 +54,53 @@
     
 }
 
+- (void)sendStatusToWatchWithString:(NSString*)status {
+    
+    WCSession* session = [WCSession defaultSession];
+    session.delegate = self;
+    [session activateSession];
+    
+    [session sendMessage:@{@"status_marker": status} replyHandler:^(NSDictionary<NSString *,id> * _Nonnull replyMessage) {
+        
+    } errorHandler:^(NSError * _Nonnull error) {
+        
+    }];
+    
+}
+
 
 #pragma mark - WatchConnectivity Delegate Method
 
 - (void) session:(nonnull WCSession *)session didReceiveMessage:(nonnull NSDictionary<NSString *,id> *)message replyHandler:(nonnull void (^)(NSDictionary<NSString *,id> * __nonnull))replyHandler{
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.messageLabel.text = message[@"b"];
-       // NSLog(@"%@",message);
-    });
+        self.messageLabel.text = message[@"time"];
+      
+    });//set the label on iphone to the time that watch sends msg
+    
+    if (message[@"status_marker"] != nil) {
+        [self sendStatusToWatchWithString:message[@"status_marker"]];
+    }//send the status to phone(this makes sure the session is started when signal is bad)
+    
+
+    
+    NSLog(message[@"test_marker"]);//log the beginning of a test session
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"ss.SSSSS"];
-    
-    NSString *phoneString = [formatter stringFromDate:[NSDate date]];//The time that phone receives data
-    NSString *watchString = message[@"b"];//time watch sent
+
+    NSString *phoneString = [formatter stringFromDate:[NSDate date]];//The time that phone receives msg
+    NSString *watchString = message[@"time"];//time watch sent msg
     
     float phoneTime = [phoneString floatValue];
     float watchTime = [watchString floatValue];
-    
-    
     float delayTime = phoneTime - watchTime;
+    //time difference
     
     NSNumber *delay = [NSNumber numberWithFloat:delayTime];
-    NSLog([delay description]);
+    NSLog([delay description]);//log time difference (todo: the difference is negative at the beginning of a min)
     
-    //[self.timeArray addObject:delay];
+    
     NSNumber *avg;
     
     //NSLog([delay description]);
@@ -92,32 +114,32 @@
     
     if ([delay floatValue] < 0.16) {
         //[self sendMsgToWatchWithString:@"7"];
-        [self.timeArray addObject:[NSNumber numberWithInt:7]];
+        [self.timeArray addObject:[NSNumber numberWithInt:4]];
         
     }
     else{
         
         if (0.16 < [delay floatValue] < 0.17) {
             //[self sendMsgToWatchWithString:@"6"];
-            [self.timeArray addObject:[NSNumber numberWithInt:6]];
+            [self.timeArray addObject:[NSNumber numberWithInt:4]];
         }
         else{
             
             if (0.17 < [delay floatValue] < 0.18) {
                 //[self sendMsgToWatchWithString:@"5"];
-                [self.timeArray addObject:[NSNumber numberWithInt:5]];
+                [self.timeArray addObject:[NSNumber numberWithInt:3]];
             }
             else{
                 
                 if (0.18 < [delay floatValue] < 0.19) {
                     //[self sendMsgToWatchWithString:@"4"];
-                    [self.timeArray addObject:[NSNumber numberWithInt:4]];
+                    [self.timeArray addObject:[NSNumber numberWithInt:3]];
                 }
                 else{
                     
                     if (0.19 < [delay floatValue] < 0.20) {
                         //[self sendMsgToWatchWithString:@"3"];
-                        [self.timeArray addObject:[NSNumber numberWithInt:3]];
+                        [self.timeArray addObject:[NSNumber numberWithInt:2]];
                     }else{
                         
                         if (0.20 < [delay floatValue] < 0.21) {
@@ -137,7 +159,7 @@
     }
     
     
-    if ([self.timeArray count] == 12) {
+    if ([self.timeArray count] == 3) {
         
         
         
@@ -145,13 +167,8 @@
             avg = [NSNumber numberWithInt:([avg integerValue] + [timeItem integerValue])];
             
         }
-        avg = [NSNumber numberWithInt:([avg integerValue]/12)];
+        avg = [NSNumber numberWithInt:([avg integerValue]/3)];
         
-        
-//        NSLog(@"-----------");
-//        NSLog([self.timeArray description]);
-//        NSLog([avg description]);
-//        NSLog(@"-----------");
         
         
         [self.timeArray removeAllObjects];
@@ -163,9 +180,6 @@
     
     
 }
-
-    
-    //[self sendMsgToWatchWithString:[delay stringValue]];
 
 
 
